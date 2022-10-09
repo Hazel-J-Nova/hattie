@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello</h1>
+    <select name="example" id="exampleSelection">
+    <% for( let example of allExamples ) { %>
+       <option value="<%= example._id %> " data="<%= example._id %> "> <%= example.name %> </option>
+    <% } %>
+    </select>
+    <button id="btn"> submit</button>
+    <h2 id="exampleName"> </h2>
+    <h3 id="exampleDescription"></h3>
+
+   
+    <script>
+       
+
+        let selection = document.getElementById('exampleSelection')
+        let value = selection.options[selection.selectionIndex]
+        let btn = document.getElementById('btn')
+        
+        btn.onclick = async(event)=>{
+         let data =  await fetch(`http://localhost:4500/example/${selection.value}`)
+        
+         let jsonData = await data.json()
+         let name = document.getElementById('exampleName')
+         let description = document.getElementById('exampleDescription')
+         name.innerText = jsonData.name
+         description.innerText = jsonData.description
+        }
+    </script>
+</body>
+</html>
